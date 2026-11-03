@@ -1,0 +1,6 @@
+// Copy to Config/Local.xcconfig (never commit it).
+// iOS OAuth client ID from Google Cloud Console → APIs & Services → Credentials.
+GOOGLE_OAUTH_CLIENT_ID = 1234567890-abcdefg.apps.googleusercontent.com
+
+// Uncomment once Apple grants the FinanceKit entitlement:
+// EXTRA_SWIFT_CONDITIONS = FINANCEKIT_ENABLED

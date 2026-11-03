@@ -1,0 +1,17 @@
+# Xcode
+*.xcodeproj/
+*.xcworkspace/
+xcuserdata/
+DerivedData/
+build/
+.build/
+.swiftpm/
+Packages/SpendCore/.build/
+
+# Secrets — never commit
+Config/Local.xcconfig
+*.p8
+*.p12
+*.mobileprovision
+
+.DS_Store

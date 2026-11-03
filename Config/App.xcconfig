@@ -1,0 +1,5 @@
+// Shared build settings. Local secrets/IDs go in Config/Local.xcconfig (git-ignored).
+GOOGLE_OAUTH_CLIENT_ID =
+EXTRA_SWIFT_CONDITIONS =
+
+#include? "Local.xcconfig"

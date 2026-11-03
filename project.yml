@@ -1,0 +1,75 @@
+# Generate the Xcode project with:  brew install xcodegen && xcodegen generate
+name: PurchaserOrganizer
+options:
+  bundleIdPrefix: com.yourcompany          # ← change to your own reverse-DNS prefix
+  deploymentTarget:
+    iOS: "17.0"                            # iPhone 14 and newer all run iOS 17+
+  createIntermediateGroups: true
+
+packages:
+  SpendCore:
+    path: Packages/SpendCore
+
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    MARKETING_VERSION: "0.1.0"
+    CURRENT_PROJECT_VERSION: "1"
+
+targets:
+  PurchaserOrganizer:
+    type: application
+    platform: iOS
+    configFiles:
+      Debug: Config/App.xcconfig
+      Release: Config/App.xcconfig
+    sources:
+      - path: PurchaserOrganizer
+    dependencies:
+      - package: SpendCore
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.yourcompany.purchaserorganizer
+        TARGETED_DEVICE_FAMILY: "1"        # iPhone only
+        SUPPORTS_MACCATALYST: NO
+        ENABLE_USER_SCRIPT_SANDBOXING: YES
+        DEAD_CODE_STRIPPING: YES
+        # Set to "FINANCEKIT_ENABLED" once Apple grants you the FinanceKit entitlement.
+        SWIFT_ACTIVE_COMPILATION_CONDITIONS: "$(inherited) $(EXTRA_SWIFT_CONDITIONS)"
+    info:
+      path: PurchaserOrganizer/Resources/Info.plist
+      properties:
+        CFBundleDisplayName: Purchaser
+        UILaunchScreen: {}
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: false
+        UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
+        NSFaceIDUsageDescription: Face ID keeps your spending data private.
+        NSFinancialDataUsageDescription: Import your Apple Card and Apple Cash purchases to categorize your spending.
+        GoogleOAuthClientID: $(GOOGLE_OAUTH_CLIENT_ID)
+        ITSAppUsesNonExemptEncryption: false
+        # App Transport Security left at its secure defaults — no exceptions.
+    entitlements:
+      path: PurchaserOrganizer/Resources/PurchaserOrganizer.entitlements
+      properties:
+        # Every file the app creates is encrypted & unreadable while the phone is locked.
+        com.apple.developer.default-data-protection: NSFileProtectionComplete
+        # Uncomment after Apple approves FinanceKit for your team:
+        # com.apple.developer.financekit: [financial-data]
+
+  SpendCoreTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: Packages/SpendCore/Tests/SpendCoreTests
+    dependencies:
+      - package: SpendCore
+
+schemes:
+  PurchaserOrganizer:
+    build:
+      targets:
+        PurchaserOrganizer: all
+    test:
+      targets:
+        - SpendCoreTests
