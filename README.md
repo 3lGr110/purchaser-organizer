@@ -73,3 +73,12 @@ PurchaserOrganizer/
   Views/                    SwiftUI + Swift Charts
 docs/                       Setup guides
 ```
+
+## Continuous integration
+
+`.github/workflows/ios.yml` runs on every push:
+- **SpendCore tests** on Linux and macOS.
+- **iOS app build** on a GitHub-hosted Mac (XcodeGen → `xcodebuild` for the iOS Simulator,
+  unsigned). The full log is attached to each run as the `xcodebuild-log` artifact.
+
+No Mac needed to know whether the app compiles — check the **Actions** tab.
