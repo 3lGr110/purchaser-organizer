@@ -24,8 +24,10 @@ final class IntegrationManager: ObservableObject {
 
     private let defaults = UserDefaults.standard
 
-    init(integrations: [any SpendIntegration] = IntegrationRegistry.all()) {
-        self.integrations = integrations
+    /// Default arguments are evaluated outside the main actor, so resolve the
+    /// registry inside the (main-actor-isolated) initializer instead.
+    init(integrations: [any SpendIntegration]? = nil) {
+        self.integrations = integrations ?? IntegrationRegistry.all()
     }
 
     func refresh() { objectWillChange.send() }
